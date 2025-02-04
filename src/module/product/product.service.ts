@@ -7,7 +7,7 @@ import Product from './product.model'
 const createProduct = async (file: unknown, payload: IProduct) => {
   if (file) {
     const imageName = `product_${payload.price}${payload?.name}`
-    const path = file?.path  
+    const path = file?.path
     // console.log(imageName, path);
 
     const { secure_url } = await sendImageToCloudinary(imageName, path)
@@ -16,6 +16,7 @@ const createProduct = async (file: unknown, payload: IProduct) => {
 
   const data = new Product(payload)
   const result = await data.save()
+
   return result
 }
 
@@ -39,7 +40,11 @@ const getSingleProduct = async (productId: string) => {
 }
 
 // Update a product by ID
-const updateProduct = async (id: string, file : any, payload: Partial<IProduct>) => {
+const updateProduct = async (
+  id: string,
+  file: any,
+  payload: Partial<IProduct>
+) => {
   if (file) {
     const imageName = `product_${payload.price}${payload?.name}`
     const path = file?.path
@@ -53,7 +58,7 @@ const updateProduct = async (id: string, file : any, payload: Partial<IProduct>)
     new: true,
     runValidators: true,
   })
-   
+
   return result
 }
 
