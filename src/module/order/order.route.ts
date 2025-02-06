@@ -9,7 +9,7 @@ router.post('/create-order', OrderController.createOrder)
 router.get('/', OrderController.getAllOrders)
 router.get('/:id', OrderController.getOrders)
 router.get('/order/:id', OrderController.getOrdersById)
-router.get('/revenue', OrderController.calculateRevenue)
+router.delete('/:id', OrderController.deleteOrder)
 
 
 export const orderRoutes  = router;

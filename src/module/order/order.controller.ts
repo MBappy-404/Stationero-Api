@@ -50,7 +50,7 @@ const createOrder = async (req: Request, res: Response) => {
 
     // Create order
     const orderData = { user, products, totalPrice }
-    const result = await OrderService.createOrder(orderData , req.ip!)
+    const result = await OrderService.createOrder(orderData, req.ip!)
 
     // Update product quantities and inStock status
     for (const item of products) {
@@ -118,25 +118,16 @@ const getAllOrders = catchAsync(async (req, res) => {
   })
 })
 
-const calculateRevenue = async (req: Request, res: Response) => {
-  try {
-    const result = await OrderService.calculateRevenueOrders()
-
-    res.status(200).json({
-      success: true,
-      message: 'Revenue calculated successfully',
-      data: result[0],
-    })
-  } catch (error: any) {
-    // Handle errors
-    res.status(404).json({
-      success: false,
-      message: error.message || 'An unexpected error occurred',
-      error: error,
-      stack: error.stack,
-    })
-  }
-}
+const deleteOrder = catchAsync(async (req, res) => {
+  const id = req.params.id
+  const result = await OrderService.deleteOrder(id)
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: 'Order deleted successfully.',
+    data: result,
+  })
+})
 
 const verifyPayment = catchAsync(async (req, res) => {
   const order = await OrderService.verifyPayment(req.query.order_id as string)
@@ -153,6 +144,6 @@ export const OrderController = {
   getOrders,
   getOrdersById,
   getAllOrders,
-  calculateRevenue,
+  deleteOrder,
   verifyPayment,
 }

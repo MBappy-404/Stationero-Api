@@ -42,7 +42,6 @@ const createOrder = async (payload: IOrder, client_ip: string) => {
       { new: true }
     )
   }
- 
 
   return payment.checkout_url
 }
@@ -79,20 +78,9 @@ const getAllOrders = async () => {
   return result
 }
 
-// calculate  total revenue
-const calculateRevenueOrders = async () => {
-  const result = await Order.aggregate([
-    {
-      $group: { _id: null, totalRevenue: { $sum: '$totalPrice' } },
-    },
-    {
-      $project: {
-        _id: 0,
-        totalRevenue: 1,
-      },
-    },
-  ])
-  return result
+const deleteOrder = async (id: string) => {
+  const result = await Order.findByIdAndDelete(id)
+  return result;
 }
 
 const verifyPayment = async (order_id: string) => {
@@ -130,6 +118,6 @@ export const OrderService = {
   getOrders,
   getOrdersById,
   getAllOrders,
-  calculateRevenueOrders,
+  deleteOrder,
   verifyPayment,
 }
